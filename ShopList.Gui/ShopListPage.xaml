@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:ShopList.Gui.ViewModels"
+             x:DataType="viewmodel:ShopListViewModel"
+             x:Class="ShopList.Gui.ShopListPage"
+             Title="ShopListPage">
+
+    <Grid
+        RowDefinitions="Auto,*"
+        Padding="8"
+        RowSpacing="6">
+        
+        <Grid
+                Grid.Row="0"
+                Grid.Column="0"
+                RowDefinitions="Auto,Auto"
+                ColumnDefinitions="Auto, *, Auto, Auto"
+                RowSpacing="8">
+
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalOptions="Center"
+                Text="Producto: "
+                FontSize="Medium"/>
+
+            <Entry
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    BackgroundColor="#f0f0f0"
+                    Text="{Binding NombreDelArticulo}"
+                    FontSize="Medium"/>
+
+            <Label
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   Text="Cantidad:"
+                   VerticalOptions="Center"
+                   FontSize="Medium"/>
+
+            <Entry
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="{Binding Cantidad}"
+                BackgroundColor="#f0f0f0"
+                FontSize="Medium"/>
+
+            <Button
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Text="+"
+                     Command="{Binding AddshopListItemComand}"/>
+
+            <Button
+                      Grid.Row="1"
+                      Grid.Column="3"
+                      Text="X"/>
+
+        </Grid>
+
+        <CollectionView
+            Grid.Row="1"
+            Grid.Column="0"
+            ItemsSource="{Binding ShopList}"
+            EmptyView="Aun no se han registrado productos."
+            SelectionMode="Single"
+            BackgroundColor="#f0f0f0">
+            
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>
