@@ -65,11 +65,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Views\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="ShopListPage.xaml">
+	  <MauiXaml Update="Views\ShopListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
