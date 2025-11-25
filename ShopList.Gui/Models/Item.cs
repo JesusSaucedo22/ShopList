@@ -1,4 +1,5 @@
-﻿namespace ShopList.Gui.Models
+﻿
+namespace ShopList.Gui.Models
 {
     public class Item
     {

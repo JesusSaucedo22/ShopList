@@ -1,48 +1,61 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using ShopList.Gui.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 
+
 namespace ShopList.Gui.ViewsModels
 {
-    public class ShopListViewModel : ObservableObject
+    public partial class ShopListViewModel : ObservableObject
     {
         [ObservableProperty]
         private string _nombreDelArticulo = string.Empty;
         [ObservableProperty]
-        private int _cantidadACompra = 1;
+        private int _cantidadAComprar = 1;
 
-        //public event PropertyChangedEventHandler? PropertyChanged;
 
         public ObservableCollection<Item> Items { get; }
 
-        
-
-        /*public void AgregarShopListItem()
+        public ShopListViewModel()
         {
-            if(string.IsNullOrEmpty(_nombreDelArticulo) || CantidadAComprar <= 0)
-           {
+            Items = new ObservableCollection<Item>();
+            CargarDatos();
+
+        }
+
+
+        [RelayCommand]
+        public void AgregarShopListItem()
+        {
+            if (string.IsNullOrEmpty(NombreDelArticulo) || CantidadAComprar <= 0)
+            {
                 return;
             }
+
             Random generador = new Random();
             var item = new Item
             {
                 Id = generador.Next(),
                 Nombre = NombreDelArticulo,
-               Cantidad = CantidadAComprar,
+                Cantidad = this.CantidadAComprar,
                 Comprado = false,
-        /*    };
+            };
             Items.Add(item);
             NombreDelArticulo = string.Empty;
             CantidadAComprar = 1;
-        }*/
-
-        public void EliminarShopListItem()
+        }
+        [RelayCommand]
+        public void EliminarShopListItem(Item item)
         {
-
+            if (item != null)
+            {
+                Items.Remove(item);
+            }
         }
 
+        [RelayCommand]
         private void CargarDatos()
         {
 
@@ -70,13 +83,7 @@ namespace ShopList.Gui.ViewsModels
 
         }
 
-        //private void OnPropertyChanged(string propertyName)
-       // {
-       //     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-       // }
-
 
     }
 
 }
-

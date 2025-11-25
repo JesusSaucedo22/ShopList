@@ -2,11 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:ShopList.Gui.ViewsModels"
+             xmlns:model="clr-namespace:ShopList.Gui.Models"
              x:DataType="viewmodel:ShopListViewModel"
              x:Class="ShopList.Gui.Views.ShopListPage"
-             Title="ShopListPage"
-              xmlns:model="clr-namespace:ShopList.Gui.Models">
-   
+             Title="ShopListPage">
 
     <Grid
         RowDefinitions="Auto,*"
@@ -30,7 +29,7 @@
             <Entry
                     Grid.Row="0"
                     Grid.Column="1"
-                    BackgroundColor="#f0f0f0"
+                    BackgroundColor="Gray"
                     Text="{Binding NombreDelArticulo}"
                     FontSize="Medium"/>
 
@@ -45,18 +44,18 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 Text="{Binding CantidadAComprar}"
-                BackgroundColor="#f0f0f0"
+                BackgroundColor="Gray"
                 FontSize="Medium"/>
 
             <Button
-                    Grid.Row="2"
-                    Grid.Column="3"
+                    Grid.Row="0"
+                    Grid.Column="2"
                     Text="+"
                     Command="{Binding AgregarShopListItemCommand}"/>
 
             <Button
                       Grid.Row="1"
-                      Grid.Column="3"
+                      Grid.Column="2"
                       Text="X"/>
 
         </Grid>
@@ -67,7 +66,7 @@
             SelectionMode="Single"
             ItemsSource="{Binding Items}"
             EmptyView="Aun no se han registrado productos."
-            BackgroundColor="#f0f0f0">
+            BackgroundColor="Gray">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Item">
