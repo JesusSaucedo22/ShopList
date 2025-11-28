@@ -4,8 +4,6 @@ using ShopList.Gui.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-
-
 namespace ShopList.Gui.ViewsModels
 {
     public partial class ShopListViewModel : ObservableObject
@@ -13,8 +11,9 @@ namespace ShopList.Gui.ViewsModels
         [ObservableProperty]
         private string _nombreDelArticulo = string.Empty;
         [ObservableProperty]
-        private int _cantidadAComprar = 1;
-
+        private int _cantidadAComprar;
+        [ObservableProperty]
+        private Item? _origenSeleccionado = null;
 
         public ObservableCollection<Item> Items { get; }
 
@@ -23,8 +22,16 @@ namespace ShopList.Gui.ViewsModels
             Items = new ObservableCollection<Item>();
             CargarDatos();
 
-        }
+            if (Items.Count > 0)
+            {
+                OrigenSeleccionado = Items[0];
+            }
+            else
+            {
+                OrigenSeleccionado = null;
+            }
 
+        }
 
         [RelayCommand]
         public void AgregarShopListItem()
@@ -33,7 +40,6 @@ namespace ShopList.Gui.ViewsModels
             {
                 return;
             }
-
             Random generador = new Random();
             var item = new Item
             {
@@ -46,13 +52,33 @@ namespace ShopList.Gui.ViewsModels
             NombreDelArticulo = string.Empty;
             CantidadAComprar = 1;
         }
+
         [RelayCommand]
-        public void EliminarShopListItem(Item item)
+        public void EliminarShopListItem()
         {
-            if (item != null)
+            if (OrigenSeleccionado == null)
             {
-                Items.Remove(item);
+                return;
             }
+            Item? nuevoSeleccionado;
+            int indice = Items.IndexOf(OrigenSeleccionado);
+            if (indice < Items.Count - 1)
+            {
+                nuevoSeleccionado = Items[indice + 1];
+            }
+            else
+            {
+                if (Items.Count > 1)
+                {
+                    nuevoSeleccionado = Items[Items.Count - 2];
+                }
+                else
+                {
+                    nuevoSeleccionado = null;
+                }
+            }
+            Items.Remove(OrigenSeleccionado);
+            OrigenSeleccionado = nuevoSeleccionado;
         }
 
         [RelayCommand]
@@ -63,27 +89,24 @@ namespace ShopList.Gui.ViewsModels
             {
                 Id = 1,
                 Nombre = "Leche",
-                Cantidad = 2,
+                Cantidad = 3,
                 Comprado = false,
             });
             Items.Add(new Item()
             {
                 Id = 2,
-                Nombre = "Leche",
+                Nombre = "Carne",
                 Cantidad = 2,
                 Comprado = false,
             });
             Items.Add(new Item()
             {
                 Id = 3,
-                Nombre = "Leche",
-                Cantidad = 2,
+                Nombre = "Queso",
+                Cantidad = 5,
                 Comprado = false,
             });
-
         }
-
-
     }
+ }
 
-}
