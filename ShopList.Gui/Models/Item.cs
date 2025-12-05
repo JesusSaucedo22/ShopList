@@ -1,11 +1,23 @@
 ﻿
+using SQLite;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ShopList.Gui.Models
 {
+    [SQLite.Table("ShopList")]
     public class Item
     {
+        [PrimaryKey]
+        [AutoIncrement]
         public int Id { get; set; }
+        
+        [NotNull]
         public string Nombre { get; set; } = string.Empty;
+        [DefaultValue(1)]
+        [NotNull]
         public int Cantidad { get; set; }
+        [NotNull]
         public bool Comprado { get; set; } = false;
 
 

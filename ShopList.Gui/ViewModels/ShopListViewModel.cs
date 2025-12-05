@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ShopList.Gui.Models;
+using ShopList.Gui.Models.Configuration;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
@@ -14,17 +15,21 @@ namespace ShopList.Gui.ViewsModels
         private int _cantidadAComprar;
         [ObservableProperty]
         private Item? _origenSeleccionado = null;
-
-        public ObservableCollection<Item> Items { get; }
-
+        
+        [ObservableProperty]
+        private ObservableCollection<Item>? _items = null;
+        private ShopListDatabase? _database = null;
+        
         public ShopListViewModel()
         {
+            _database = new ShopListDatabase();
             Items = new ObservableCollection<Item>();
-            CargarDatos();
+            GetItems();
+            //CargarDatos();
 
             if (Items.Count > 0)
             {
-                OrigenSeleccionado = Items[0];
+                OrigenSeleccionado = Items.First();
             }
             else
             {
@@ -34,21 +39,24 @@ namespace ShopList.Gui.ViewsModels
         }
 
         [RelayCommand]
-        public void AgregarShopListItem()
+        public async void AgregarShopListItem()
         {
             if (string.IsNullOrEmpty(NombreDelArticulo) || CantidadAComprar <= 0)
             {
                 return;
             }
-            Random generador = new Random();
+            //Random generador = new Random();
             var item = new Item
             {
-                Id = generador.Next(),
+                //Id = generador.Next(),
                 Nombre = NombreDelArticulo,
-                Cantidad = this.CantidadAComprar,
+                Cantidad = CantidadAComprar,
                 Comprado = false,
             };
-            Items.Add(item);
+            await _database.SaveItemAsync(item);
+            //Items.Add(item);
+            GetItems();
+            OrigenSeleccionado = item;
             NombreDelArticulo = string.Empty;
             CantidadAComprar = 1;
         }
@@ -80,11 +88,17 @@ namespace ShopList.Gui.ViewsModels
             Items.Remove(OrigenSeleccionado);
             OrigenSeleccionado = nuevoSeleccionado;
         }
-
-        [RelayCommand]
-        private void CargarDatos()
+        private async void GetItems()
         {
 
+            IEnumerable<Item> itemsFromDb =  await _database.GetAllItemsAsync();
+            Items = new ObservableCollection<Item>(itemsFromDb);
+
+        }
+
+        
+        private void CargarDatos()
+        {
             Items.Add(new Item()
             {
                 Id = 1,
